@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ProfDev_Dictionary</string>
+    <string name="error_textview_stub">Произошла ошибка</string>
+    <string name="reload_button">Отправить повторный запрос</string>
+    <string name="search_bar">Поиск</string>
+    <string name="undefined_error">Непредвиденная ошибка</string>
+    <string name="empty_server_response_on_success">Не получен ответ с сервера</string>
 </resources>
