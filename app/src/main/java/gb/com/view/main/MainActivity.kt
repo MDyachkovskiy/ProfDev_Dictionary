@@ -4,19 +4,26 @@ import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import gb.com.R
 import gb.com.databinding.ActivityMainBinding
 import gb.com.model.data.AppState
 import gb.com.model.data.WordDefinition
-import gb.com.presenter.MainPresenter
-import gb.com.presenter.Presenter
 import gb.com.view.base.BaseActivity
-import gb.com.view.base.View
 import gb.com.view.fragments.SearchResult
 
 class MainActivity : BaseActivity<AppState>() {
 
     private lateinit var binding: ActivityMainBinding
+
+    override val model: MainViewModel by lazy{
+        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+    }
+
+    private val observer = Observer<AppState> {renderData(it)}
+
+    private var searchingWord: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +34,9 @@ class MainActivity : BaseActivity<AppState>() {
             searchView.setOnQueryTextListener(
                 object: SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        query?.let{presenter.getData(it, true) }
+                        searchingWord = query
+                        query?.let{model.getData(it, true)
+                            .observe(this@MainActivity, observer) }
                         return true
                     }
 
@@ -37,10 +46,6 @@ class MainActivity : BaseActivity<AppState>() {
                 }
             )
         }
-    }
-
-    override fun createPresenter(): Presenter<AppState, View> {
-        return MainPresenter()
     }
 
     override fun renderData(appState: AppState) {
@@ -79,7 +84,9 @@ class MainActivity : BaseActivity<AppState>() {
         binding.apply {
             errorTextView.text = error ?: getString(R.string.undefined_error)
             reloadButton.setOnClickListener{
-                presenter.getData("hi", true)
+                searchingWord?.let {
+                    model.getData(it, true).observe(this@MainActivity, observer)
+                }
             }
         }
     }
