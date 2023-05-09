@@ -1,6 +1,5 @@
 package gb.com.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import gb.com.model.data.AppState
@@ -13,7 +12,7 @@ abstract class BaseViewModel<T : AppState>(
     protected val schedulerProvider: SchedulerProvider = SchedulerProvider()
 ) : ViewModel() {
 
-    open fun getData(word: String, isOnline: Boolean): LiveData<T> = liveDataForViewToObserve
+    abstract fun getData(word: String, isOnline: Boolean)
 
     override fun onCleared() {
         compositeDisposable.clear()

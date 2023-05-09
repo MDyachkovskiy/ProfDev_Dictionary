@@ -7,19 +7,22 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import gb.com.R
+import gb.com.application.App
 import gb.com.databinding.ActivityMainBinding
 import gb.com.model.data.AppState
 import gb.com.model.data.WordDefinition
 import gb.com.view.base.BaseActivity
 import gb.com.view.fragments.SearchResult
+import javax.inject.Inject
 
 class MainActivity : BaseActivity<AppState>() {
 
-    private lateinit var binding: ActivityMainBinding
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    override val model: MainViewModel by lazy{
-        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
-    }
+    override lateinit var model: MainViewModel
+
+    private lateinit var binding: ActivityMainBinding
 
     private val observer = Observer<AppState> {renderData(it)}
 
@@ -27,16 +30,25 @@ class MainActivity : BaseActivity<AppState>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val appComponent = (application as App).appComponent
+        appComponent.inject(this)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        model = viewModelFactory.create(MainViewModel::class.java)
+        model.subscribe().observe(this@MainActivity, observer)
 
         with(binding) {
             searchView.setOnQueryTextListener(
                 object: SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         searchingWord = query
-                        query?.let{model.getData(it, true)
-                            .observe(this@MainActivity, observer) }
+                        query?.let{
+                            model.getData(it, true)
+                            model.subscribe().observe(this@MainActivity, observer)
+                        }
                         return true
                     }
 
@@ -85,7 +97,8 @@ class MainActivity : BaseActivity<AppState>() {
             errorTextView.text = error ?: getString(R.string.undefined_error)
             reloadButton.setOnClickListener{
                 searchingWord?.let {
-                    model.getData(it, true).observe(this@MainActivity, observer)
+                    model.getData(it, true)
+                    model.subscribe().observe(this@MainActivity, observer)
                 }
             }
         }
