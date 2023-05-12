@@ -7,21 +7,18 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import gb.com.R
-import gb.com.application.App
 import gb.com.databinding.ActivityMainBinding
 import gb.com.model.data.AppState
 import gb.com.model.data.WordDefinition
 import gb.com.utils.network.isOnline
 import gb.com.view.base.BaseActivity
 import gb.com.view.fragments.SearchResult
-import javax.inject.Inject
 
 class MainActivity : BaseActivity<AppState>() {
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    override lateinit var model: MainViewModel
+    override val model: MainViewModel by lazy {
+        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+    }
 
     private lateinit var binding: ActivityMainBinding
 
@@ -32,14 +29,8 @@ class MainActivity : BaseActivity<AppState>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val appComponent = (application as App).appComponent
-        appComponent.inject(this)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        model = viewModelFactory.create(MainViewModel::class.java)
-        model.subscribe().observe(this@MainActivity, observer)
 
         with(binding) {
             searchView.setOnQueryTextListener(
