@@ -11,6 +11,7 @@ import gb.com.application.App
 import gb.com.databinding.ActivityMainBinding
 import gb.com.model.data.AppState
 import gb.com.model.data.WordDefinition
+import gb.com.utils.network.isOnline
 import gb.com.view.base.BaseActivity
 import gb.com.view.fragments.SearchResult
 import javax.inject.Inject
@@ -45,9 +46,14 @@ class MainActivity : BaseActivity<AppState>() {
                 object: SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         searchingWord = query
-                        query?.let{
-                            model.getData(it, true)
-                            model.subscribe().observe(this@MainActivity, observer)
+                        isNetworkAvailable = isOnline(applicationContext)
+                        if(isNetworkAvailable) {
+                            query?.let{
+                                model.getData(it, true)
+                                model.subscribe().observe(this@MainActivity, observer)
+                            }
+                        } else {
+                            showNoInternetConnectionDialog()
                         }
                         return true
                     }

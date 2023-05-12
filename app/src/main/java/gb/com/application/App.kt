@@ -1,14 +1,13 @@
 package gb.com.application
 
 import android.app.Application
-import gb.com.di.AppComponent
 
 class App : Application() {
 
-    val appComponent: AppComponent =
+    val appComponent =
         DaggerAppComponent
             .builder()
-            .application(this)
+            .appModule(this)
             .build()
 
     override fun onCreate() {

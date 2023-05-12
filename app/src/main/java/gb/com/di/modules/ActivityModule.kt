@@ -1,4 +1,4 @@
-package gb.com.di
+package gb.com.di.modules
 
 import dagger.Module
 import dagger.Provides

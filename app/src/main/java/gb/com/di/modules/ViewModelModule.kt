@@ -1,10 +1,12 @@
-package gb.com.di
+package gb.com.di.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import gb.com.di.ViewModelFactory
+import gb.com.di.ViewModelKey
 
 import gb.com.view.main.MainViewModel
 

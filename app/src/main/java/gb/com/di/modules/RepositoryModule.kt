@@ -1,7 +1,9 @@
-package gb.com.di
+package gb.com.di.modules
 
 import dagger.Module
 import dagger.Provides
+import gb.com.di.NAME_LOCAL
+import gb.com.di.NAME_REMOTE
 import gb.com.model.data.WordDefinition
 import gb.com.model.datasource.DataSource
 import gb.com.model.datasource.api.RetrofitImplementation
