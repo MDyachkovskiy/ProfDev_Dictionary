@@ -2,17 +2,13 @@ package gb.com.view.main
 
 import androidx.lifecycle.LiveData
 import gb.com.model.data.AppState
-import gb.com.model.datasource.DataSourceRemote
-import gb.com.model.repository.RepositoryImplementation
 import gb.com.presenter.MainInteractor
 import gb.com.viewmodel.BaseViewModel
 import io.reactivex.observers.DisposableObserver
 
 
 class MainViewModel(
-    private val interactor: MainInteractor = MainInteractor(
-        RepositoryImplementation(DataSourceRemote())
-    )
+    private val interactor: MainInteractor
 ) : BaseViewModel<AppState>() {
 
     private var appState: AppState? = null

@@ -5,8 +5,7 @@ import gb.com.model.data.WordDefinition
 import gb.com.model.repository.Repository
 import io.reactivex.Observable
 
-class MainInteractor
-constructor(
+class MainInteractor(
     private val remoteRepository: Repository<List<WordDefinition>>
 ) : Interactor<AppState> {
 
