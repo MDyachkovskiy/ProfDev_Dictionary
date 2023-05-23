@@ -5,7 +5,6 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import gb.com.R
 import gb.com.databinding.ActivityMainBinding
 import gb.com.model.data.AppState
@@ -13,12 +12,11 @@ import gb.com.model.data.WordDefinition
 import gb.com.utils.network.isOnline
 import gb.com.view.base.BaseActivity
 import gb.com.view.fragments.SearchResult
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<AppState>() {
 
-    override val model: MainViewModel by lazy {
-        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
-    }
+    override lateinit var model: MainViewModel
 
     private lateinit var binding: ActivityMainBinding
 
@@ -31,6 +29,8 @@ class MainActivity : BaseActivity<AppState>() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initViewModel()
 
         with(binding) {
             searchView.setOnQueryTextListener(
@@ -61,7 +61,7 @@ class MainActivity : BaseActivity<AppState>() {
         when(appState){
             is AppState.Success -> {
                 val data = appState.data
-                if (data == null || data.isEmpty()) {
+                if (data.isNullOrEmpty()) {
                     showErrorScreen(getString(R.string.empty_server_response_on_success))
                 } else {
                     showViewSuccess()
@@ -132,5 +132,11 @@ class MainActivity : BaseActivity<AppState>() {
             SearchResult.newInstance(data))
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    private fun initViewModel() {
+        val viewModel: MainViewModel by viewModel()
+        model = viewModel
+        model.subscribe().observe(this@MainActivity) { renderData(it) }
     }
 }
