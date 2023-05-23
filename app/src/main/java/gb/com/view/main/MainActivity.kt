@@ -4,22 +4,31 @@ import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import gb.com.R
 import gb.com.databinding.ActivityMainBinding
 import gb.com.model.data.AppState
 import gb.com.model.data.WordDefinition
-import gb.com.presenter.MainPresenter
-import gb.com.presenter.Presenter
+import gb.com.utils.network.isOnline
 import gb.com.view.base.BaseActivity
-import gb.com.view.base.View
 import gb.com.view.fragments.SearchResult
 
 class MainActivity : BaseActivity<AppState>() {
 
+    override val model: MainViewModel by lazy {
+        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+    }
+
     private lateinit var binding: ActivityMainBinding
+
+    private val observer = Observer<AppState> {renderData(it)}
+
+    private var searchingWord: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -27,7 +36,16 @@ class MainActivity : BaseActivity<AppState>() {
             searchView.setOnQueryTextListener(
                 object: SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        query?.let{presenter.getData(it, true) }
+                        searchingWord = query
+                        isNetworkAvailable = isOnline(applicationContext)
+                        if(isNetworkAvailable) {
+                            query?.let{
+                                model.getData(it, true)
+                                model.subscribe().observe(this@MainActivity, observer)
+                            }
+                        } else {
+                            showNoInternetConnectionDialog()
+                        }
                         return true
                     }
 
@@ -37,10 +55,6 @@ class MainActivity : BaseActivity<AppState>() {
                 }
             )
         }
-    }
-
-    override fun createPresenter(): Presenter<AppState, View> {
-        return MainPresenter()
     }
 
     override fun renderData(appState: AppState) {
@@ -79,7 +93,10 @@ class MainActivity : BaseActivity<AppState>() {
         binding.apply {
             errorTextView.text = error ?: getString(R.string.undefined_error)
             reloadButton.setOnClickListener{
-                presenter.getData("hi", true)
+                searchingWord?.let {
+                    model.getData(it, true)
+                    model.subscribe().observe(this@MainActivity, observer)
+                }
             }
         }
     }

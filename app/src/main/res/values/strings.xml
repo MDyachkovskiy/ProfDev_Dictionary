@@ -5,4 +5,11 @@
     <string name="search_bar">Поиск</string>
     <string name="undefined_error">Непредвиденная ошибка</string>
     <string name="empty_server_response_on_success">Не получен ответ с сервера</string>
+
+    //AlertDialog
+    <string name="dialog_title_stub">Непредвиденная ошибка</string>
+    <string name="dialog_button_cancel">Отменить</string>
+    <string name="dialog_title_device_is_offline">Нет доступа к сети Интернет</string>
+    <string name="dialog_message_device_is_offline">К сожалению, вы не можете воспользоваться приложением без подключения к сети Интернет</string>
+
 </resources>

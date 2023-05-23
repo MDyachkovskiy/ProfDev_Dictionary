@@ -10,4 +10,9 @@
 
     <color name="color_text_main">#66000014</color>
     <color name="color_text_header">#313131</color>
+    <color name="color_text_phonetic">#3A4687</color>
+
+    <color name="color_item_definition_background">#A1A3AF</color>
+
+
 </resources>

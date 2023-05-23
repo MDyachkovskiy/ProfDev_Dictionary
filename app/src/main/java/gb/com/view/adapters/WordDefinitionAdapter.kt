@@ -8,72 +8,107 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import gb.com.R
 import gb.com.model.data.Definition
+import gb.com.model.data.Meaning
 import gb.com.model.data.WordDefinition
 
 class WordDefinitionAdapter(
     private val wordDefinitionList: List<WordDefinition>
 ) : RecyclerView.Adapter<WordDefinitionAdapter.ViewHolder>() {
 
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val wordTextView: TextView = itemView.findViewById(
             R.id.header_textview_recycler_item
         )
-        private val definitionRecyclerView: RecyclerView = itemView.findViewById(
-            R.id.definition_recycler_view
+
+        private val phoneticTextView: TextView = itemView.findViewById(
+            R.id.phonetic_textview_recycler_item
         )
 
-        fun bindView(word: String, definitionList: List<Definition>) {
-            wordTextView.text = word
-            val defitnitionAdapter = DefinitionAdapter(definitionList)
-            definitionRecyclerView.adapter = defitnitionAdapter
-            definitionRecyclerView.layoutManager = LinearLayoutManager(itemView.context)
+        private val partOfSpeechRecyclerView: RecyclerView = itemView.findViewById(
+            R.id.partofspeech_recycler_view
+        )
+
+        fun bind(wordDefinition: WordDefinition) {
+            wordTextView.text = wordDefinition.word
+            phoneticTextView.text = wordDefinition.phonetic
+            val partOfSpeechAdapter = PartOfSpeechAdapter(wordDefinition.meanings)
+            partOfSpeechRecyclerView.apply{
+                layoutManager = LinearLayoutManager(context)
+                adapter = partOfSpeechAdapter
+            }
         }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_search_result, parent, false
-        )
-        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val wordDefinition = wordDefinitionList[position]
-
-        val mergedDefinitionList = mutableListOf<Definition>()
-        wordDefinition.meanings.forEach { meaning ->
-            mergedDefinitionList.addAll(meaning.definitions)
-        }
-
-        holder.bindView(wordDefinition.word, mergedDefinitionList)
+        holder.bind(wordDefinition)
     }
 
     override fun getItemCount(): Int = wordDefinitionList.size
 
-    class DefinitionAdapter(
-        private val definitionList: List<Definition>
-    ) : RecyclerView.Adapter<DefinitionAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.item_search_result, parent, false)
+        return ViewHolder(view)
+    }
 
-        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val definitionTextView: TextView = itemView.findViewById(
-                R.id.description_textview_recycler_item
-            )
+    inner class PartOfSpeechAdapter(
+        private val meanings: List<Meaning>
+    ) : RecyclerView.Adapter<PartOfSpeechAdapter.MeaningViewHolder>() {
+
+        inner class MeaningViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+            private val partOfSpeechTextView: TextView =
+                itemView.findViewById(R.id.partofspeech_textview_recycler_item)
+            private val definitionRecyclerView: RecyclerView =
+                itemView.findViewById(R.id.definition_recycler_view)
+
+            fun bind(meaning: Meaning) {
+                partOfSpeechTextView.text = meaning.partOfSpeech
+                val definitionAdapter = DefinitionAdapter(meaning.definitions)
+                definitionRecyclerView.apply {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = definitionAdapter
+                }
+            }
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeaningViewHolder {
+            val inflater = LayoutInflater.from(parent.context)
+            val view = inflater.inflate(R.layout.item_part_of_speech, parent, false)
+            return MeaningViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: MeaningViewHolder, position: Int) {
+            holder.bind(meanings[position])
+        }
+
+        override fun getItemCount() = meanings.size
+    }
+
+    inner class DefinitionAdapter(
+        private val definitions: List<Definition>
+    ) : RecyclerView.Adapter<DefinitionAdapter.DefinitionViewHolder>() {
+
+        inner class DefinitionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            private val definitionTextView: TextView = itemView.findViewById(
+                R.id.description_textview_recycler_item)
+
+            fun bind(definition: Definition){
+                definitionTextView.text = definition.definition
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DefinitionViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.item_definition, parent, false
-            )
-            return ViewHolder(view)
+                R.layout.item_definition, parent, false)
+            return DefinitionViewHolder(view)
         }
 
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val definition = definitionList[position]
-            holder.definitionTextView.text = definition.definition
+        override fun onBindViewHolder(holder: DefinitionViewHolder, position: Int) {
+            holder.bind(definitions[position])
         }
 
-        override fun getItemCount(): Int = definitionList.size
+        override fun getItemCount() = definitions.size
     }
 }

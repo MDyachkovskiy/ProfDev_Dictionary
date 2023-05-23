@@ -1,31 +1,49 @@
 package gb.com.view.base
 
+
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import gb.com.R
 import gb.com.model.data.AppState
-import gb.com.presenter.Presenter
+import gb.com.utils.network.isOnline
+import gb.com.utils.ui.AlertDialogFragment
+import gb.com.viewmodel.BaseViewModel
 
-abstract class BaseActivity<T: AppState> : AppCompatActivity(), View {
+abstract class BaseActivity<T: AppState> : AppCompatActivity(){
 
-    protected lateinit var presenter: Presenter<T, View>
+    abstract fun renderData(appState: AppState)
 
-    protected abstract fun createPresenter(): Presenter<T, View>
+    abstract val model: BaseViewModel<T>
 
-    abstract override fun renderData(appState: AppState)
+    protected var isNetworkAvailable: Boolean = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter = createPresenter()
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+        isNetworkAvailable = isOnline(applicationContext)
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.attachView(this)
+    override fun onResume() {
+        super.onResume()
+        isNetworkAvailable = isOnline(applicationContext)
+        if (!isNetworkAvailable && isDialogNull())
+            showNoInternetConnectionDialog()
     }
 
-    override fun onStop() {
-        super.onStop()
-        presenter.detachView(this)
+    private fun isDialogNull(): Boolean {
+        return supportFragmentManager.findFragmentByTag(DIALOG_FRAGMENT) == null
+    }
+
+    protected fun showNoInternetConnectionDialog() {
+        AlertDialogFragment.newInstance(
+            getString(R.string.dialog_title_device_is_offline),
+            getString(R.string.dialog_message_device_is_offline)
+        ).show(supportFragmentManager, DIALOG_FRAGMENT)
+    }
+
+
+    companion object {
+        private const val DIALOG_FRAGMENT = "dialog fragment"
     }
 
 }
