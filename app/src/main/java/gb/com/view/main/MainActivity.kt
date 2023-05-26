@@ -31,29 +31,39 @@ class MainActivity : BaseActivity<AppState>() {
         setContentView(binding.root)
 
         initViewModel()
+        setupSearchView()
+    }
 
-        with(binding) {
-            searchView.setOnQueryTextListener(
-                object: SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        searchingWord = query
-                        isNetworkAvailable = isOnline(applicationContext)
-                        if(isNetworkAvailable) {
+    private fun setupSearchView() {
+
+        isNetworkAvailable = isOnline(applicationContext)
+
+        if(isNetworkAvailable) {
+            with(binding) {
+                searchView.setOnQueryTextListener(
+                    object: SearchView.OnQueryTextListener {
+
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            searchingWord = query
                             query?.let{
                                 model.getData(it, true)
                                 model.subscribe().observe(this@MainActivity, observer)
                             }
-                        } else {
-                            showNoInternetConnectionDialog()
+                            return true
                         }
-                        return true
-                    }
 
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        return false
+                        override fun onQueryTextChange(newText: String?): Boolean {
+                            newText?.let {
+                                model.getPreliminaryData(it, true)
+                                model.subscribe().observe(this@MainActivity, observer)
+                            }
+                            return true
+                        }
                     }
-                }
-            )
+                )
+            }
+        } else {
+            showNoInternetConnectionDialog()
         }
     }
 

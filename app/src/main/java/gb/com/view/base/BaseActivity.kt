@@ -41,7 +41,6 @@ abstract class BaseActivity<T: AppState> : AppCompatActivity(){
         ).show(supportFragmentManager, DIALOG_FRAGMENT)
     }
 
-
     companion object {
         private const val DIALOG_FRAGMENT = "dialog fragment"
     }
