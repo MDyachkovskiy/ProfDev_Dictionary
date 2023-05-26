@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import gb.com.R
 import gb.com.databinding.ActivityMainBinding
 import gb.com.model.data.AppState
@@ -19,8 +19,6 @@ class MainActivity : BaseActivity<AppState>() {
     override lateinit var model: MainViewModel
 
     private lateinit var binding: ActivityMainBinding
-
-    private val observer = Observer<AppState> {renderData(it)}
 
     private var searchingWord: String? = null
 
@@ -47,7 +45,6 @@ class MainActivity : BaseActivity<AppState>() {
                             searchingWord = query
                             query?.let{
                                 model.getData(it, true)
-                                model.subscribe().observe(this@MainActivity, observer)
                             }
                             return true
                         }
@@ -55,7 +52,6 @@ class MainActivity : BaseActivity<AppState>() {
                         override fun onQueryTextChange(newText: String?): Boolean {
                             newText?.let {
                                 model.getPreliminaryData(it, true)
-                                model.subscribe().observe(this@MainActivity, observer)
                             }
                             return true
                         }
@@ -105,7 +101,6 @@ class MainActivity : BaseActivity<AppState>() {
             reloadButton.setOnClickListener{
                 searchingWord?.let {
                     model.getData(it, true)
-                    model.subscribe().observe(this@MainActivity, observer)
                 }
             }
         }
@@ -147,6 +142,8 @@ class MainActivity : BaseActivity<AppState>() {
     private fun initViewModel() {
         val viewModel: MainViewModel by viewModel()
         model = viewModel
-        model.subscribe().observe(this@MainActivity) { renderData(it) }
+        lifecycleScope.launchWhenStarted{
+            model.stateFlow.collect { renderData(it) }
+        }
     }
 }
