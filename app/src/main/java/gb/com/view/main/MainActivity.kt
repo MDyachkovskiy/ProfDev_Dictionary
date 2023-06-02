@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import gb.com.R
 import gb.com.databinding.ActivityMainBinding
 import gb.com.model.data.AppState
@@ -20,8 +20,6 @@ class MainActivity : BaseActivity<AppState>() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val observer = Observer<AppState> {renderData(it)}
-
     private var searchingWord: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,29 +29,37 @@ class MainActivity : BaseActivity<AppState>() {
         setContentView(binding.root)
 
         initViewModel()
+        setupSearchView()
+    }
 
-        with(binding) {
-            searchView.setOnQueryTextListener(
-                object: SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        searchingWord = query
-                        isNetworkAvailable = isOnline(applicationContext)
-                        if(isNetworkAvailable) {
+    private fun setupSearchView() {
+
+        isNetworkAvailable = isOnline(applicationContext)
+
+        if(isNetworkAvailable) {
+            with(binding) {
+                searchView.setOnQueryTextListener(
+                    object: SearchView.OnQueryTextListener {
+
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            searchingWord = query
                             query?.let{
                                 model.getData(it, true)
-                                model.subscribe().observe(this@MainActivity, observer)
                             }
-                        } else {
-                            showNoInternetConnectionDialog()
+                            return true
                         }
-                        return true
-                    }
 
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        return false
+                        override fun onQueryTextChange(newText: String?): Boolean {
+                            newText?.let {
+                                model.getPreliminaryData(it, true)
+                            }
+                            return true
+                        }
                     }
-                }
-            )
+                )
+            }
+        } else {
+            showNoInternetConnectionDialog()
         }
     }
 
@@ -95,7 +101,6 @@ class MainActivity : BaseActivity<AppState>() {
             reloadButton.setOnClickListener{
                 searchingWord?.let {
                     model.getData(it, true)
-                    model.subscribe().observe(this@MainActivity, observer)
                 }
             }
         }
@@ -137,6 +142,8 @@ class MainActivity : BaseActivity<AppState>() {
     private fun initViewModel() {
         val viewModel: MainViewModel by viewModel()
         model = viewModel
-        model.subscribe().observe(this@MainActivity) { renderData(it) }
+        lifecycleScope.launchWhenStarted{
+            model.stateFlow.collect { renderData(it) }
+        }
     }
 }
