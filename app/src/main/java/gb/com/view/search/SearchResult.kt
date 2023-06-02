@@ -1,4 +1,4 @@
-package gb.com.view.fragments
+package gb.com.view.search
 
 import android.os.Bundle
 import android.view.LayoutInflater

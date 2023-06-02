@@ -1,4 +1,4 @@
-package gb.com.viewmodel
+package gb.com.view.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +14,6 @@ abstract class BaseViewModel<T : AppState>(
 ) : ViewModel() {
 
     abstract fun getData(word: String, isOnline: Boolean)
-    abstract fun getPreliminaryData(word: String, isOnline: Boolean)
 
     abstract fun handleError(error: Throwable)
 

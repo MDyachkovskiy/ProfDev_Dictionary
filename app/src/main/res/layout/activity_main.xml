@@ -38,67 +38,13 @@
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_toolbar"
-        app:layout_constraintVertical_bias="0.0">
+        >
 
     </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/loading_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/search_toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+    <include layout="@layout/layout_loading"
+        />
 
-        <ProgressBar
-            android:id="@+id/progress_bar_horizontal"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            />
-
-        <ProgressBar
-            android:id="@+id/progress_bar_round"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            />
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/error_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/search_toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
-
-        <TextView
-            android:id="@+id/error_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/error_textview_stub"
-            android:paddingVertical="@dimen/margin_medium"
-            />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/reload_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/reload_button"
-            />
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

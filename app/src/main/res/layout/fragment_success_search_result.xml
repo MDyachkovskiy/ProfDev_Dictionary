@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/margin_x_small"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_success_result_recyclerview"
@@ -14,6 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

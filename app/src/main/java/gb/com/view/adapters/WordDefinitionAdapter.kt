@@ -32,7 +32,7 @@ class WordDefinitionAdapter(
         fun bind(wordDefinition: WordDefinition) {
             wordTextView.text = wordDefinition.word
             phoneticTextView.text = wordDefinition.phonetic
-            val partOfSpeechAdapter = PartOfSpeechAdapter(wordDefinition.meanings)
+            val partOfSpeechAdapter = wordDefinition.meanings?.let { PartOfSpeechAdapter(it) }
             partOfSpeechRecyclerView.apply{
                 layoutManager = LinearLayoutManager(context)
                 adapter = partOfSpeechAdapter

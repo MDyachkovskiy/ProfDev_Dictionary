@@ -1,20 +1,23 @@
 package gb.com.view.main
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import gb.com.R
 import gb.com.databinding.ActivityMainBinding
 import gb.com.model.data.AppState
 import gb.com.model.data.WordDefinition
+import gb.com.presenter.MainInteractor
 import gb.com.utils.network.isOnline
 import gb.com.view.base.BaseActivity
-import gb.com.view.fragments.SearchResult
+import gb.com.view.history.HistoryActivity
+import gb.com.view.search.SearchResult
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity<AppState>() {
+class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     override lateinit var model: MainViewModel
 
@@ -63,38 +66,7 @@ class MainActivity : BaseActivity<AppState>() {
         }
     }
 
-    override fun renderData(appState: AppState) {
-        when(appState){
-            is AppState.Success -> {
-                val data = appState.data
-                if (data.isNullOrEmpty()) {
-                    showErrorScreen(getString(R.string.empty_server_response_on_success))
-                } else {
-                    showViewSuccess()
-                    showSearchResultsFragment(data)
-                }
-            }
-            is AppState.Loading -> {
-                showViewLoading()
-                if(appState.progress != null)
-                    binding.apply {
-                        progressBarHorizontal.visibility = VISIBLE
-                        progressBarRound.visibility = GONE
-                        progressBarHorizontal.progress = appState.progress
-                    } else {
-                        binding.apply {
-                            progressBarHorizontal.visibility = GONE
-                            progressBarRound.visibility = VISIBLE
-                        }
-                    }
-                }
-            is AppState.Error -> {
-                showErrorScreen(appState.error.message)
-            }
-        }
-    }
-
-    private fun showErrorScreen(error: String?) {
+    /*override fun showErrorScreen(error: String?) {
         showViewError()
         binding.apply {
             errorTextView.text = error ?: getString(R.string.undefined_error)
@@ -104,33 +76,9 @@ class MainActivity : BaseActivity<AppState>() {
                 }
             }
         }
-    }
+    }*/
 
-    private fun showViewSuccess() {
-        binding.apply {
-            loadingLayout.visibility = GONE
-            errorLayout.visibility = GONE
-            successLayout.visibility = VISIBLE
-        }
-    }
-
-    private fun showViewLoading() {
-        binding.apply {
-            loadingLayout.visibility = VISIBLE
-            errorLayout.visibility = GONE
-            successLayout.visibility = GONE
-        }
-    }
-
-    private fun showViewError() {
-        binding.apply {
-            loadingLayout.visibility = GONE
-            errorLayout.visibility = VISIBLE
-            successLayout.visibility = GONE
-        }
-    }
-
-    private fun showSearchResultsFragment(data: List<WordDefinition>) {
+    override fun setupData(data: List<WordDefinition>) {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
         transaction.replace(R.id.success_layout,
@@ -144,6 +92,21 @@ class MainActivity : BaseActivity<AppState>() {
         model = viewModel
         lifecycleScope.launchWhenStarted{
             model.stateFlow.collect { renderData(it) }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.history_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_history -> {
+                startActivity(Intent(this, HistoryActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

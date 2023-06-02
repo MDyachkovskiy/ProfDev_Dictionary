@@ -13,6 +13,7 @@
     <color name="color_text_phonetic">#3A4687</color>
 
     <color name="color_item_definition_background">#A1A3AF</color>
+    <color name="color_white_transparent">#80FFFFFF</color>
 
 
 </resources>

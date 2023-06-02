@@ -2,7 +2,7 @@ package gb.com.view.main
 
 import gb.com.model.data.AppState
 import gb.com.presenter.MainInteractor
-import gb.com.viewmodel.BaseViewModel
+import gb.com.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -33,7 +33,7 @@ class MainViewModel(
         }
     }
 
-    override fun getPreliminaryData(word: String, isOnline: Boolean) {
+    fun getPreliminaryData(word: String, isOnline: Boolean) {
         _stateFlow.value = AppState.Loading(null)
         viewModelCoroutineScope.launch {
             queryStateFlow.value = word
