@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
 )
 data class WordEntity (
     @PrimaryKey(autoGenerate = true)
-    val id: Long? = 0,
+    val id: Long = 0,
     val word: String = "",
     val phonetic: String? = "",
     val partOfSpeech: String = "",
