@@ -1,112 +1,54 @@
 package gb.com.view.main
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.lifecycleScope
+import androidx.appcompat.app.AppCompatActivity
 import gb.com.R
 import gb.com.databinding.ActivityMainBinding
-import gb.com.model.data.AppState
-import gb.com.model.data.WordDefinition
-import gb.com.presenter.MainInteractor
-import gb.com.utils.network.isOnline
-import gb.com.view.base.BaseActivity
-import gb.com.view.history.HistoryActivity
-import gb.com.view.search.SearchResult
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import gb.com.view.history.HistoryFragment
+import gb.com.view.search.SearchFragment
 
-class MainActivity : BaseActivity<AppState, MainInteractor>() {
+class MainActivity : AppCompatActivity() {
 
-    override lateinit var model: MainViewModel
-
-    private lateinit var binding: ActivityMainBinding
-
-    private var searchingWord: String? = null
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        initViewModel()
-        setupSearchView()
-    }
-
-    private fun setupSearchView() {
-
-        isNetworkAvailable = isOnline(applicationContext)
-
-        if(isNetworkAvailable) {
-            with(binding) {
-                searchView.setOnQueryTextListener(
-                    object: SearchView.OnQueryTextListener {
-
-                        override fun onQueryTextSubmit(query: String?): Boolean {
-                            searchingWord = query
-                            query?.let{
-                                model.getData(it, true)
-                            }
-                            return true
-                        }
-
-                        override fun onQueryTextChange(newText: String?): Boolean {
-                            newText?.let {
-                                model.getPreliminaryData(it, true)
-                            }
-                            return true
-                        }
-                    }
-                )
-            }
-        } else {
-            showNoInternetConnectionDialog()
+        _binding = ActivityMainBinding.inflate(layoutInflater).also{
+            setContentView(it.root)
         }
-    }
 
-    /*override fun showErrorScreen(error: String?) {
-        showViewError()
-        binding.apply {
-            errorTextView.text = error ?: getString(R.string.undefined_error)
-            reloadButton.setOnClickListener{
-                searchingWord?.let {
-                    model.getData(it, true)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.main_container, SearchFragment.newInstance())
+            .commit()
+
+        binding.bottomNavigationMenu.setOnItemSelectedListener {item ->
+            when (item.itemId) {
+                R.id.action_search -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_container, SearchFragment.newInstance())
+                        .commit()
+                    true
                 }
+                R.id.action_history -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_container, HistoryFragment.newInstance())
+                        .commit()
+                    true
+                }
+                R.id.action_favorite -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_container, HistoryFragment.newInstance())
+                        .commit()
+                    true
+                }
+                else -> false
             }
-        }
-    }*/
-
-    override fun setupData(data: List<WordDefinition>) {
-        val manager = supportFragmentManager
-        val transaction = manager.beginTransaction()
-        transaction.replace(R.id.success_layout,
-            SearchResult.newInstance(data))
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
-
-    private fun initViewModel() {
-        val viewModel: MainViewModel by viewModel()
-        model = viewModel
-        lifecycleScope.launchWhenStarted{
-            model.stateFlow.collect { renderData(it) }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.history_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_history -> {
-                startActivity(Intent(this, HistoryActivity::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 }

@@ -12,7 +12,7 @@ import gb.com.model.repository.RepositoryLocal
 import gb.com.presenter.HistoryInteractor
 import gb.com.presenter.MainInteractor
 import gb.com.view.history.HistoryViewModel
-import gb.com.view.main.MainViewModel
+import gb.com.view.search.SearchViewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -32,7 +32,7 @@ val application = module {
 
 val mainScreen = module {
     factory { MainInteractor( get(named(NAME_REMOTE)), get(named(NAME_LOCAL)) ) }
-    factory { MainViewModel( get() ) }
+    factory { SearchViewModel( get() ) }
 }
 
 val historyScreen = module {

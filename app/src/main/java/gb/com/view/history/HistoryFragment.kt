@@ -1,16 +1,19 @@
 package gb.com.view.history
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import gb.com.databinding.FragmentHistoryBinding
 import gb.com.model.data.AppState
 import gb.com.model.data.WordDefinition
 import gb.com.presenter.HistoryInteractor
 import gb.com.view.adapters.HistoryAdapter
-import gb.com.view.base.BaseActivity
+import gb.com.view.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
+class HistoryFragment : BaseFragment<AppState, HistoryInteractor>() {
 
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
@@ -19,18 +22,26 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
 
     private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        _binding = FragmentHistoryBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    companion object {
+        fun newInstance() = HistoryFragment()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
 
         initViewModel()
         initView()
+
+        return binding.root
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         _binding = null
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     override fun setupData(data: List<WordDefinition>) {
@@ -40,7 +51,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
        val viewModel: HistoryViewModel by viewModel()
         model = viewModel
         model.getData("", false)
-        model.subscribe().observe(this@HistoryActivity) {
+        model.subscribe().observe(this@HistoryFragment) {
             renderData(it)
         }
     }

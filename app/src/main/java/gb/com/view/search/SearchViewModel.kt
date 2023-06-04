@@ -1,4 +1,4 @@
-package gb.com.view.main
+package gb.com.view.search
 
 import gb.com.model.data.AppState
 import gb.com.presenter.MainInteractor
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-class MainViewModel(
+class SearchViewModel(
     private val interactor: MainInteractor
 ) : BaseViewModel<AppState>() {
 

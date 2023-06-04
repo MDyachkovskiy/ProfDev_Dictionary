@@ -19,6 +19,11 @@
     //OptionsMenu
     <string name="menu_title_history">История поисков</string>
 
+    //NavigationMenu
+    <string name="nav_menu_title_search">Поиск</string>
+    <string name="nav_menu_title_history">История поисков</string>
+    <string name="nav_menu_title_favorite">Понравившиеся</string>
+
     //ErrorDialog
     <string name="title_no_definitions">Извините</string>
     <string name="error_no_definitions">Не найдено определений к этому слову</string>
