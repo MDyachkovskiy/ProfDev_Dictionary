@@ -1,8 +1,8 @@
 package gb.com.model.repository
 
-import gb.com.model.data.AppState
-import gb.com.model.data.WordDefinition
-import gb.com.model.datasource.DataSourceLocal
+import gb.com.model.data.wordDefinition.AppState
+import gb.com.model.data.wordDefinition.WordDefinition
+import gb.com.model.datasource.db.DataSourceLocal
 
 class RepositoryImplementationLocal(
     private val dataSource: DataSourceLocal<List<WordDefinition>>

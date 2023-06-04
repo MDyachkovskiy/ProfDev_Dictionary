@@ -5,8 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import gb.com.R
 import gb.com.databinding.LayoutLoadingBinding
-import gb.com.model.data.AppState
-import gb.com.model.data.WordDefinition
+import gb.com.model.data.wordDefinition.AppState
+import gb.com.model.data.wordDefinition.WordDefinition
 import gb.com.presenter.Interactor
 import gb.com.utils.network.isOnline
 import gb.com.view.alertDialog.AlertDialogFragment
@@ -59,9 +59,10 @@ abstract class BaseFragment<T: AppState, I: Interactor<T>> : Fragment() {
 
     protected open fun renderData(appState: T) {
         when(appState) {
-            is AppState.Success -> {
+            is AppState.Success<*> -> {
                 showViewWorking()
-                appState.data?.let {
+                val data = appState.data as? List<WordDefinition>
+                data?.let {
                     if (it.isEmpty()) {
                         showAlertDialog(
                             getString(R.string.title_no_definitions),

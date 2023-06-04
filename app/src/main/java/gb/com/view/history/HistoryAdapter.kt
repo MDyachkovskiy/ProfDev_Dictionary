@@ -1,4 +1,4 @@
-package gb.com.view.adapters
+package gb.com.view.history
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import gb.com.R
-import gb.com.model.data.WordDefinition
+import gb.com.model.data.wordDefinition.WordDefinition
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolder> () {
 

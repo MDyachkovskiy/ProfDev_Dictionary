@@ -2,7 +2,7 @@ package gb.com.view.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import gb.com.model.data.AppState
+import gb.com.model.data.wordDefinition.AppState
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

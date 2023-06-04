@@ -1,7 +1,7 @@
 package gb.com.presenter
 
-import gb.com.model.data.AppState
-import gb.com.model.data.WordDefinition
+import gb.com.model.data.wordDefinition.AppState
+import gb.com.model.data.wordDefinition.WordDefinition
 import gb.com.model.repository.Repository
 import gb.com.model.repository.RepositoryLocal
 

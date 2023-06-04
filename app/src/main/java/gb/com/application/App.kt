@@ -3,6 +3,7 @@ package gb.com.application
 import android.app.Application
 import gb.com.di.application
 import gb.com.di.historyScreen
+import gb.com.di.imageScreen
 import gb.com.di.mainScreen
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
@@ -13,7 +14,7 @@ class App : Application() {
         super.onCreate()
         startKoin {
             androidContext(applicationContext)
-            modules (listOf(application, mainScreen, historyScreen))
+            modules (listOf(application, mainScreen, historyScreen, imageScreen))
         }
     }
 }

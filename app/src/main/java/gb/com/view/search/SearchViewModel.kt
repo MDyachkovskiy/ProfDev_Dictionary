@@ -1,6 +1,6 @@
 package gb.com.view.search
 
-import gb.com.model.data.AppState
+import gb.com.model.data.wordDefinition.AppState
 import gb.com.presenter.MainInteractor
 import gb.com.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

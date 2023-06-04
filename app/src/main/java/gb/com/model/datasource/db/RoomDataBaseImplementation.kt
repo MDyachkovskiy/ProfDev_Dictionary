@@ -1,12 +1,11 @@
 package gb.com.model.datasource.db
 
-import gb.com.model.data.AppState
-import gb.com.model.data.Definition
-import gb.com.model.data.Meaning
-import gb.com.model.data.WordDefinition
+import gb.com.model.data.wordDefinition.AppState
+import gb.com.model.data.wordDefinition.Definition
+import gb.com.model.data.wordDefinition.Meaning
+import gb.com.model.data.wordDefinition.WordDefinition
 import gb.com.model.database.WordDao
 import gb.com.model.database.WordEntity
-import gb.com.model.datasource.DataSourceLocal
 
 class RoomDataBaseImplementation(
     private val wordDao: WordDao
@@ -51,7 +50,7 @@ class RoomDataBaseImplementation(
         appState: AppState
     ): List<WordEntity> {
         return when (appState) {
-            is AppState.Success -> {
+            is AppState.Success<*> -> {
                 val searchResult = appState.data as List<WordDefinition>
                 searchResult.flatMap { wordDefinition ->
                     wordDefinition.meanings?.flatMap { meaning ->

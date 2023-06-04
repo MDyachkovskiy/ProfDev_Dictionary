@@ -1,7 +1,7 @@
 package gb.com.view.history
 
 import androidx.lifecycle.LiveData
-import gb.com.model.data.AppState
+import gb.com.model.data.wordDefinition.AppState
 import gb.com.presenter.HistoryInteractor
 import gb.com.view.base.BaseViewModel
 import kotlinx.coroutines.launch

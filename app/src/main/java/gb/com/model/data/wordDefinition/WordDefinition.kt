@@ -1,4 +1,4 @@
-package gb.com.model.data
+package gb.com.model.data.wordDefinition
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

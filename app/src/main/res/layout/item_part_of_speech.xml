@@ -7,15 +7,36 @@
     android:layout_height="wrap_content"
     >
 
-    <TextView
-        android:id="@+id/partofspeech_textview_recycler_item"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_x_small"
-        android:layout_marginStart="@dimen/margin_medium"
-        tools:text="Part of Speech"
-        style="@style/HeaderTextStyle"
-        />
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/partofspeech_textview_recycler_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_x_small"
+            android:layout_marginStart="@dimen/margin_medium"
+            tools:text="Part of Speech"
+            style="@style/HeaderTextStyle"
+            />
+
+
+        <Button
+            android:id="@+id/button_load_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|end"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:text="@string/button_image_load"
+            android:backgroundTint="@color/color_button_close"
+            />
+
+    </LinearLayout>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/definition_recycler_view"

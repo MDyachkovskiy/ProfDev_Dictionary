@@ -28,4 +28,13 @@
     <string name="title_no_definitions">Извините</string>
     <string name="error_no_definitions">Не найдено определений к этому слову</string>
 
+    //PictureFragment
+    <string name="picture_header">Заголовок</string>
+    <string name="picture_partOfSpeech">Часть речи</string>
+    <string name="picture_stub">Макет изображения</string>
+    <string name="close_button">Кнопка закрытия</string>
+
+    //SearchResultRecyclerView
+    <string name="button_image_load">Загрузить изображение</string>
+
 </resources>

@@ -8,11 +8,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import gb.com.databinding.FragmentSearchBinding
-import gb.com.model.data.AppState
-import gb.com.model.data.WordDefinition
+import gb.com.model.data.wordDefinition.AppState
+import gb.com.model.data.wordDefinition.WordDefinition
 import gb.com.presenter.MainInteractor
 import gb.com.utils.network.isOnline
-import gb.com.view.adapters.WordDefinitionAdapter
 import gb.com.view.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -81,7 +80,7 @@ class SearchFragment : BaseFragment<AppState, MainInteractor>() {
     }
 
     override fun setupData(data: List<WordDefinition>) {
-        adapter = WordDefinitionAdapter(data)
+        adapter = WordDefinitionAdapter(data, parentFragmentManager)
         with(binding) {
             successResultRecyclerview.layoutManager = LinearLayoutManager(context)
             successResultRecyclerview.adapter = adapter

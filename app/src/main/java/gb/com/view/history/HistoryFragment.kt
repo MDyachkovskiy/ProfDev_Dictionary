@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import gb.com.databinding.FragmentHistoryBinding
-import gb.com.model.data.AppState
-import gb.com.model.data.WordDefinition
+import gb.com.model.data.wordDefinition.AppState
+import gb.com.model.data.wordDefinition.WordDefinition
 import gb.com.presenter.HistoryInteractor
-import gb.com.view.adapters.HistoryAdapter
 import gb.com.view.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
