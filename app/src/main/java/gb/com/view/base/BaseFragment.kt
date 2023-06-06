@@ -6,12 +6,11 @@ import androidx.fragment.app.Fragment
 import gb.com.R
 import gb.com.databinding.LayoutLoadingBinding
 import gb.com.model.data.wordDefinition.AppState
-import gb.com.model.data.wordDefinition.WordDefinition
 import gb.com.presenter.Interactor
 import gb.com.utils.network.isOnline
 import gb.com.view.alertDialog.AlertDialogFragment
 
-abstract class BaseFragment<T: AppState, I: Interactor<T>> : Fragment() {
+abstract class BaseFragment<T: AppState, I: Interactor<T>,D> : Fragment() {
 
     private var _binding: LayoutLoadingBinding? = null
     private val binding get() = _binding!!
@@ -61,7 +60,7 @@ abstract class BaseFragment<T: AppState, I: Interactor<T>> : Fragment() {
         when(appState) {
             is AppState.Success<*> -> {
                 showViewWorking()
-                val data = appState.data as? List<WordDefinition>
+                val data = appState.data as? List<D>
                 data?.let {
                     if (it.isEmpty()) {
                         showAlertDialog(
@@ -97,7 +96,7 @@ abstract class BaseFragment<T: AppState, I: Interactor<T>> : Fragment() {
         binding.loadingLayout.visibility = View.VISIBLE
     }
 
-    abstract fun setupData(data: List<WordDefinition>)
+    abstract fun setupData(data: List<D>)
 
     private fun showAlertDialog(title: String?, message: String?) {
         AlertDialogFragment.newInstance(title, message)
@@ -107,5 +106,4 @@ abstract class BaseFragment<T: AppState, I: Interactor<T>> : Fragment() {
     private fun showViewWorking() {
         binding.loadingLayout.visibility = View.GONE
     }
-
 }

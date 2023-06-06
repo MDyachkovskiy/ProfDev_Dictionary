@@ -2,6 +2,7 @@ package gb.com.application
 
 import android.app.Application
 import gb.com.di.application
+import gb.com.di.favoriteScreen
 import gb.com.di.historyScreen
 import gb.com.di.imageScreen
 import gb.com.di.mainScreen
@@ -14,7 +15,7 @@ class App : Application() {
         super.onCreate()
         startKoin {
             androidContext(applicationContext)
-            modules (listOf(application, mainScreen, historyScreen, imageScreen))
+            modules (listOf(application, mainScreen, historyScreen, imageScreen, favoriteScreen))
         }
     }
 }

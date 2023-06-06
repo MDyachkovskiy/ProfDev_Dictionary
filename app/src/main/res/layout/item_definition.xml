@@ -9,6 +9,17 @@
     android:backgroundTint="@color/color_item_definition_background"
     >
 
+    <CheckBox
+        android:id="@+id/favorite_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|end"
+        android:layout_marginTop="@dimen/margin_x_small"
+        android:layout_marginEnd="@dimen/margin_x_small"
+        android:button="@drawable/selector_favorite_item"
+        android:checked="false"
+        />
+
     <TextView
         android:id="@+id/description_textview_recycler_item"
         android:layout_width="match_parent"

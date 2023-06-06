@@ -12,7 +12,7 @@ import gb.com.view.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class HistoryFragment : BaseFragment<AppState, HistoryInteractor>() {
+class HistoryFragment : BaseFragment<AppState, HistoryInteractor, WordDefinition>() {
 
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
@@ -46,6 +46,7 @@ class HistoryFragment : BaseFragment<AppState, HistoryInteractor>() {
     override fun setupData(data: List<WordDefinition>) {
         adapter.setData(data)
     }
+
     private fun initViewModel() {
        val viewModel: HistoryViewModel by viewModel()
         model = viewModel

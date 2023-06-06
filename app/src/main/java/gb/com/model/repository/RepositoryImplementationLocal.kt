@@ -6,7 +6,7 @@ import gb.com.model.datasource.db.DataSourceLocal
 
 class RepositoryImplementationLocal(
     private val dataSource: DataSourceLocal<List<WordDefinition>>
-) : RepositoryLocal <List<WordDefinition>>{
+) : RepositoryLocal <List<WordDefinition>> {
     override suspend fun saveToDB(appState: AppState) {
         dataSource.saveToDB(appState)
     }
@@ -14,5 +14,4 @@ class RepositoryImplementationLocal(
     override suspend fun getData(word: String): List<WordDefinition> {
         return dataSource.getData(word)
     }
-
 }

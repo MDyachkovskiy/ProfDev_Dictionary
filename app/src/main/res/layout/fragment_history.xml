@@ -23,7 +23,6 @@
 
     </FrameLayout>
 
-    <include layout="@layout/layout_loading"
-        />
+    <include layout="@layout/layout_loading"/>
 
 </FrameLayout>

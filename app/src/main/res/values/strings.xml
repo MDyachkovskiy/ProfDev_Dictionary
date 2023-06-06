@@ -37,4 +37,9 @@
     //SearchResultRecyclerView
     <string name="button_image_load">Загрузить изображение</string>
 
+    //FavoriteRecyclerView
+    <string name="favorite_recycler_view_header">Заголовок</string>
+    <string name="favorite_recycler_view_partOfSpeech">Часть речи</string>
+    <string name="favorite_recycler_view_phonetic">Фонетика</string>
+
 </resources>

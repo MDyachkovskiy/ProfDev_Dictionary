@@ -9,13 +9,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import gb.com.databinding.FragmentSearchBinding
 import gb.com.model.data.wordDefinition.AppState
+import gb.com.model.data.wordDefinition.WordDTO
 import gb.com.model.data.wordDefinition.WordDefinition
 import gb.com.presenter.MainInteractor
 import gb.com.utils.network.isOnline
 import gb.com.view.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchFragment : BaseFragment<AppState, MainInteractor>() {
+class SearchFragment : BaseFragment<AppState, MainInteractor, WordDefinition>() {
 
     override lateinit var model: SearchViewModel
 
@@ -80,7 +81,11 @@ class SearchFragment : BaseFragment<AppState, MainInteractor>() {
     }
 
     override fun setupData(data: List<WordDefinition>) {
-        adapter = WordDefinitionAdapter(data, parentFragmentManager)
+        adapter = WordDefinitionAdapter(data, parentFragmentManager, object: OnFavoriteChanged{
+            override fun onFavoriteChanged(wordDTO: WordDTO) {
+                model.saveFavorite(wordDTO)
+            }
+        })
         with(binding) {
             successResultRecyclerview.layoutManager = LinearLayoutManager(context)
             successResultRecyclerview.adapter = adapter

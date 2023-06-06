@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import gb.com.R
 import gb.com.databinding.ActivityMainBinding
+import gb.com.view.favorite.FavoriteFragment
 import gb.com.view.history.HistoryFragment
 import gb.com.view.search.SearchFragment
 
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_favorite -> {
                     supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.main_container, HistoryFragment.newInstance())
+                        .replace(R.id.main_container, FavoriteFragment.newInstance())
                         .commit()
                     true
                 }

@@ -1,6 +1,7 @@
 package gb.com.view.search
 
 import gb.com.model.data.wordDefinition.AppState
+import gb.com.model.data.wordDefinition.WordDTO
 import gb.com.presenter.MainInteractor
 import gb.com.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +29,16 @@ class SearchViewModel(
             try{
                 _stateFlow.emit(interactor.getData(word, isOnline))
             } catch (e: Throwable) {
+                _stateFlow.emit(AppState.Error(e))
+            }
+        }
+    }
+
+    fun saveFavorite(wordDTO: WordDTO){
+        viewModelCoroutineScope.launch {
+            try{
+                interactor.saveFavorite(wordDTO)
+            } catch (e:Throwable){
                 _stateFlow.emit(AppState.Error(e))
             }
         }

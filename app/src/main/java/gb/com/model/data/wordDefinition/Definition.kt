@@ -5,5 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Definition(
-    val definition: String = ""
+    val definition: String = "",
+    var isFavorite: Boolean = false
 ) : Parcelable
