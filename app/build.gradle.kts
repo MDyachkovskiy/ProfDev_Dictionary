@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace = "gb.com"
-    compileSdk = 33
+    compileSdk = Config.compile_sdk
 
     defaultConfig {
-        applicationId = "gb.com"
-        minSdk = 28
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Config.application_id
+        minSdk = Config.min_sdk
+        targetSdk = Config.target_sdk
+        versionCode = Releases.version_code
+        versionName = Releases.version_name
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -42,50 +42,50 @@ android {
 dependencies {
 
     //AndroidX
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation(Design.appcompat)
+    implementation(Kotlin.runtime_ktx)
 
     //Design
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation(Design.material)
+    implementation(Design.constraintlayout)
 
     //Kotlin
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation(Kotlin.core)
 
     //Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementation(Retrofit.retrofit)
+    implementation(Retrofit.converter_gson)
+    implementation(Retrofit.adapter_rxjava3)
+    implementation(Retrofit.adapter_rxjava2)
+    implementation(Retrofit.interceptor)
 
     //RxJava
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
-    implementation("io.reactivex.rxjava2:rxjava:2.2.8")
+    implementation(RxJava.rxandroid)
+    implementation(RxJava.rxjava)
 
     //Koin
-    implementation("io.insert-koin:koin-core:3.1.4")
-    implementation("io.insert-koin:koin-android:3.1.4")
-    implementation("io.insert-koin:koin-android-compat:3.1.4")
+    implementation(Koin.koin_core)
+    implementation(Koin.koin_android)
+    implementation(Koin.koin_android_compat)
 
     //Glide
-    implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation(Glide.glide)
     implementation("com.google.ar:core:1.30.0")
-    kapt("com.github.bumptech.glide:compiler:4.11.0")
+    kapt(Glide.compiler)
 
 
     //Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+    implementation(Coroutines.coroutinesCore)
+    implementation(Coroutines.coroutinesAndroid)
+    implementation(Coroutines.retrofitAdapter)
 
     //Room
-    implementation("androidx.room:room-runtime:2.5.1")
-    implementation("androidx.room:room-ktx:2.5.1")
-    kapt("androidx.room:room-compiler:2.5.1")
+    implementation(Room.room_runtime)
+    implementation(Room.room_ktx)
+    kapt(Room.room_compiler)
 
     //Test
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation(Test.junit)
+    androidTestImplementation(Test.ext_junit)
+    androidTestImplementation(Test.espresso_core)
 }
