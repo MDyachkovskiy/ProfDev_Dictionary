@@ -1,149 +1,55 @@
 package gb.com.view.main
 
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.lifecycleScope
+import androidx.appcompat.app.AppCompatActivity
 import gb.com.R
 import gb.com.databinding.ActivityMainBinding
-import gb.com.model.data.AppState
-import gb.com.model.data.WordDefinition
-import gb.com.utils.network.isOnline
-import gb.com.view.base.BaseActivity
-import gb.com.view.fragments.SearchResult
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import gb.com.view.favorite.FavoriteFragment
+import gb.com.view.history.HistoryFragment
+import gb.com.view.search.SearchFragment
 
-class MainActivity : BaseActivity<AppState>() {
+class MainActivity : AppCompatActivity() {
 
-    override lateinit var model: MainViewModel
-
-    private lateinit var binding: ActivityMainBinding
-
-    private var searchingWord: String? = null
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        initViewModel()
-        setupSearchView()
-    }
-
-    private fun setupSearchView() {
-
-        isNetworkAvailable = isOnline(applicationContext)
-
-        if(isNetworkAvailable) {
-            with(binding) {
-                searchView.setOnQueryTextListener(
-                    object: SearchView.OnQueryTextListener {
-
-                        override fun onQueryTextSubmit(query: String?): Boolean {
-                            searchingWord = query
-                            query?.let{
-                                model.getData(it, true)
-                            }
-                            return true
-                        }
-
-                        override fun onQueryTextChange(newText: String?): Boolean {
-                            newText?.let {
-                                model.getPreliminaryData(it, true)
-                            }
-                            return true
-                        }
-                    }
-                )
-            }
-        } else {
-            showNoInternetConnectionDialog()
+        _binding = ActivityMainBinding.inflate(layoutInflater).also{
+            setContentView(it.root)
         }
-    }
 
-    override fun renderData(appState: AppState) {
-        when(appState){
-            is AppState.Success -> {
-                val data = appState.data
-                if (data.isNullOrEmpty()) {
-                    showErrorScreen(getString(R.string.empty_server_response_on_success))
-                } else {
-                    showViewSuccess()
-                    showSearchResultsFragment(data)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.main_container, SearchFragment.newInstance())
+            .commit()
+
+        binding.bottomNavigationMenu.setOnItemSelectedListener {item ->
+            when (item.itemId) {
+                R.id.action_search -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_container, SearchFragment.newInstance())
+                        .commit()
+                    true
                 }
-            }
-            is AppState.Loading -> {
-                showViewLoading()
-                if(appState.progress != null)
-                    binding.apply {
-                        progressBarHorizontal.visibility = VISIBLE
-                        progressBarRound.visibility = GONE
-                        progressBarHorizontal.progress = appState.progress
-                    } else {
-                        binding.apply {
-                            progressBarHorizontal.visibility = GONE
-                            progressBarRound.visibility = VISIBLE
-                        }
-                    }
+                R.id.action_history -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_container, HistoryFragment.newInstance())
+                        .commit()
+                    true
                 }
-            is AppState.Error -> {
-                showErrorScreen(appState.error.message)
-            }
-        }
-    }
-
-    private fun showErrorScreen(error: String?) {
-        showViewError()
-        binding.apply {
-            errorTextView.text = error ?: getString(R.string.undefined_error)
-            reloadButton.setOnClickListener{
-                searchingWord?.let {
-                    model.getData(it, true)
+                R.id.action_favorite -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_container, FavoriteFragment.newInstance())
+                        .commit()
+                    true
                 }
+                else -> false
             }
-        }
-    }
-
-    private fun showViewSuccess() {
-        binding.apply {
-            loadingLayout.visibility = GONE
-            errorLayout.visibility = GONE
-            successLayout.visibility = VISIBLE
-        }
-    }
-
-    private fun showViewLoading() {
-        binding.apply {
-            loadingLayout.visibility = VISIBLE
-            errorLayout.visibility = GONE
-            successLayout.visibility = GONE
-        }
-    }
-
-    private fun showViewError() {
-        binding.apply {
-            loadingLayout.visibility = GONE
-            errorLayout.visibility = VISIBLE
-            successLayout.visibility = GONE
-        }
-    }
-
-    private fun showSearchResultsFragment(data: List<WordDefinition>) {
-        val manager = supportFragmentManager
-        val transaction = manager.beginTransaction()
-        transaction.replace(R.id.success_layout,
-            SearchResult.newInstance(data))
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
-
-    private fun initViewModel() {
-        val viewModel: MainViewModel by viewModel()
-        model = viewModel
-        lifecycleScope.launchWhenStarted{
-            model.stateFlow.collect { renderData(it) }
         }
     }
 }

@@ -11,5 +11,35 @@
     <string name="dialog_button_cancel">Отменить</string>
     <string name="dialog_title_device_is_offline">Нет доступа к сети Интернет</string>
     <string name="dialog_message_device_is_offline">К сожалению, вы не можете воспользоваться приложением без подключения к сети Интернет</string>
+    <string name="error_activity_null">Активити не может быть null</string>
+
+    //HistoryLayout
+    <string name="history_layout_recycler_view_item_header">Заголовок</string>
+
+    //OptionsMenu
+    <string name="menu_title_history">История поисков</string>
+
+    //NavigationMenu
+    <string name="nav_menu_title_search">Поиск</string>
+    <string name="nav_menu_title_history">История поисков</string>
+    <string name="nav_menu_title_favorite">Понравившиеся</string>
+
+    //ErrorDialog
+    <string name="title_no_definitions">Извините</string>
+    <string name="error_no_definitions">Не найдено определений к этому слову</string>
+
+    //PictureFragment
+    <string name="picture_header">Заголовок</string>
+    <string name="picture_partOfSpeech">Часть речи</string>
+    <string name="picture_stub">Макет изображения</string>
+    <string name="close_button">Кнопка закрытия</string>
+
+    //SearchResultRecyclerView
+    <string name="button_image_load">Загрузить изображение</string>
+
+    //FavoriteRecyclerView
+    <string name="favorite_recycler_view_header">Заголовок</string>
+    <string name="favorite_recycler_view_partOfSpeech">Часть речи</string>
+    <string name="favorite_recycler_view_phonetic">Фонетика</string>
 
 </resources>

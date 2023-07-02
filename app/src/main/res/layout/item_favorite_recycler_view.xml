@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginVertical="@dimen/margin_x_small"
+    android:background="@drawable/rounded_rectangle_background"
+    android:backgroundTint="@color/color_item_definition_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/header_favorite_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_x_small"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:text="@string/favorite_recycler_view_header"
+            style="@style/HeaderTextStyle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/phonetic_favorite_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_x_small"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:text="@string/favorite_recycler_view_phonetic"
+            style="@style/PhoneticTextStyle"
+            app:layout_constraintStart_toEndOf="@id/header_favorite_recycler_view"
+            app:layout_constraintTop_toTopOf="@id/header_favorite_recycler_view"
+            app:layout_constraintBottom_toBottomOf="@id/header_favorite_recycler_view"
+            />
+
+        <CheckBox
+            android:id="@+id/checkbox_favorite_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_favorite_item"
+            android:checked="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/partOfSpeech_favorite_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_x_small"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:text="@string/favorite_recycler_view_partOfSpeech"
+        style="@style/HeaderTextStyle"
+        />
+
+    <TextView
+        android:id="@+id/description_favorite_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_x_small"
+        android:layout_marginHorizontal="@dimen/margin_medium"
+        android:text="Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        style="@style/BaseTextStyle"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hairline"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:background="@color/black"
+        />
+
+</LinearLayout>
