@@ -23,43 +23,43 @@ object Modules {
 
 object Versions {
     //Design
-    const val appcompat = "1.6.1"
-    const val constraintlayout = "2.1.4"
-    const val material = "1.9.0"
+    const val appcompat = "1.6.1" //actual February 8, 2023
+    const val constraintlayout = "2.1.4" // actual May 20, 2022
+    const val material = "1.9.0" // actual May 5, 2023
 
     //Kotlin
-    const val core = "1.10.1"
-    const val runtime_ktx = "2.6.1"
+    const val core = "1.10.1" // actual May 10, 2023
+    const val runtime_ktx = "2.6.1" // actual March 22, 2023
 
     //Coroutines
-    const val coroutinesCore = "1.6.4"
-    const val coroutinesAndroid = "1.6.4"
+    const val coroutinesCore = "1.7.2" // actual Jun 29, 2023
+    const val coroutinesAndroid = "1.7.2" // actual Jun 29, 2023
     const val retrofitAdapter = "0.9.2"
 
     //Retrofit
-    const val retrofit = "2.9.0"
-    const val converter_gson = "2.9.0"
-    const val adapter_rxjava3 = "2.9.0"
-    const val adapter_rxjava2 = "2.9.0"
-    const val interceptor = "4.9.3"
+    const val retrofit = "2.9.0" // actual May 20, 2020
+    const val converter_gson = "2.9.0" // actual May 20, 2020
+    const val adapter_rxjava3 = "2.9.0" // actual May 20, 2020
+    const val adapter_rxjava2 = "2.9.0" // actual May 20, 2020
+    const val interceptor = "4.11.0" // actual Apr 23, 2023
 
     //RxJava
-    const val rxandroid = "2.1.0"
-    const val rxjava = "2.2.8"
+    const val rxandroid = "2.1.1" //actual Feb 16, 2019
+    const val rxjava = "2.2.21" //actual Feb 13, 2021
 
     //Koin
-    const val koin_core = "3.1.4"
-    const val koin_android = "3.1.4"
-    const val koin_android_compat = "3.1.4"
+    const val koin_core = "3.4.2" // actual Jun 05, 2023
+    const val koin_android = "3.4.2" // actual Jun 05, 2023
+    const val koin_android_compat = "3.4.2" // actual Jun 05, 2023
 
     //Glide
-    const val glide = "4.12.0"
-    const val compiler = "4.11.0"
+    const val glide = "4.15.1" // actual Mar 14 2023
+    const val compiler = "4.15.1" // actual Mar 14 2023
 
     //Room
-    const val room_runtime = "2.5.1"
-    const val room_ktx = "2.5.1"
-    const val room_compiler = "2.5.1"
+    const val room_runtime = "2.5.2" // actual Jun 21, 2023
+    const val room_ktx = "2.5.2" // actual Jun 21, 2023
+    const val room_compiler = "2.5.2" // actual Jun 21, 2023
 
     //Test
     const val junit = "4.13.2"

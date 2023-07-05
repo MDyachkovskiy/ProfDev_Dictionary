@@ -11,10 +11,10 @@ import androidx.room.PrimaryKey
 )
 data class WordEntity (
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
-    val word: String = "",
-    val phonetic: String? = "",
-    val partOfSpeech: String = "",
+    var id: Long = 0,
+    var word: String = "",
+    var phonetic: String? = "",
+    var partOfSpeech: String = "",
     @ColumnInfo(name = "definition")
-    val definition: String = ""
+    var definition: String = ""
 )
