@@ -2,8 +2,10 @@ package gb.com.view.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import gb.com.R
 import gb.com.databinding.ActivityMainBinding
+import gb.com.utils.viewById
 import gb.com.view.favorite.FavoriteFragment
 import gb.com.view.history.HistoryFragment
 import gb.com.view.search.SearchFragment
@@ -11,7 +13,8 @@ import gb.com.view.search.SearchFragment
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
+
+    private val bottomNavigationMenu by viewById<BottomNavigationView>(R.id.bottom_navigation_menu)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.main_container, SearchFragment.newInstance())
             .commit()
 
-        binding.bottomNavigationMenu.setOnItemSelectedListener {item ->
+       bottomNavigationMenu.setOnItemSelectedListener {item ->
             when (item.itemId) {
                 R.id.action_search -> {
                     supportFragmentManager
