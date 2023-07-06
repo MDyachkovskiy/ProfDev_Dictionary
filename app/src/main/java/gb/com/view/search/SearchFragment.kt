@@ -9,12 +9,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import gb.com.R
 import gb.com.databinding.FragmentSearchBinding
 import gb.com.model.data.wordDefinition.AppState
 import gb.com.model.data.wordDefinition.WordDTO
 import gb.com.model.data.wordDefinition.WordDefinition
 import gb.com.presenter.MainInteractor
 import gb.com.utils.network.isOnline
+import gb.com.utils.viewById
 import gb.com.view.base.BaseFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,6 +33,9 @@ class SearchFragment : BaseFragment<AppState, MainInteractor, WordDefinition>() 
 
     private var adapter: WordDefinitionAdapter? = null
 
+    private val searchView by viewById<SearchView>(R.id.search_view)
+    private val successResultRecyclerview by viewById<RecyclerView>(R.id.success_result_recyclerview)
+
     companion object {
         fun newInstance() = SearchFragment()
     }
@@ -40,11 +46,13 @@ class SearchFragment : BaseFragment<AppState, MainInteractor, WordDefinition>() 
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViewModel()
         setupSearchView()
-
-        return binding.root
     }
 
 
@@ -57,25 +65,24 @@ class SearchFragment : BaseFragment<AppState, MainInteractor, WordDefinition>() 
 
         isNetworkAvailable = isOnline(requireContext())
 
+
         if(isNetworkAvailable) {
-            with(binding) {
-                searchView.setOnQueryTextListener(
-                    object: SearchView.OnQueryTextListener {
+            searchView.setOnQueryTextListener(
+                object: SearchView.OnQueryTextListener {
 
-                        override fun onQueryTextSubmit(query: String?): Boolean {
-                            searchingWord = query
-                            query?.let{
-                                model.getData(it, true)
-                            }
-                            return true
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        searchingWord = query
+                        query?.let{
+                            model.getData(it, true)
                         }
-
-                        override fun onQueryTextChange(newText: String?): Boolean {
-                            return true
-                        }
+                        return true
                     }
-                )
-            }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        return true
+                    }
+                }
+            )
         } else {
             showNoInternetConnectionDialog()
         }
@@ -87,10 +94,8 @@ class SearchFragment : BaseFragment<AppState, MainInteractor, WordDefinition>() 
                 model.saveFavorite(wordDTO)
             }
         })
-        with(binding) {
-            successResultRecyclerview.layoutManager = LinearLayoutManager(context)
-            successResultRecyclerview.adapter = adapter
-        }
+        successResultRecyclerview.layoutManager = LinearLayoutManager(context)
+        successResultRecyclerview.adapter = adapter
     }
 
     private fun initViewModel() {
