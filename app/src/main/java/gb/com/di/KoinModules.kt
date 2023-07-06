@@ -18,10 +18,14 @@ import gb.com.presenter.FavoriteInteractor
 import gb.com.presenter.HistoryInteractor
 import gb.com.presenter.ImageInteractor
 import gb.com.presenter.MainInteractor
+import gb.com.view.favorite.FavoriteFragment
 import gb.com.view.favorite.FavoriteViewModel
+import gb.com.view.history.HistoryFragment
 import gb.com.view.history.HistoryViewModel
 import gb.com.view.image.ImageViewModel
+import gb.com.view.search.SearchFragment
 import gb.com.view.search.SearchViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -53,21 +57,27 @@ val application = module {
 }
 
 val mainScreen = module {
-    factory { MainInteractor( get(named(NAME_REMOTE)), get(named(NAME_LOCAL)), get() ) }
-    factory { SearchViewModel( get() ) }
+    scope(named<SearchFragment>()) {
+        scoped { MainInteractor( get(named(NAME_REMOTE)), get(named(NAME_LOCAL)), get() ) }
+        viewModel { SearchViewModel( get() ) }
+    }
 }
 
 val historyScreen = module {
-    factory { HistoryViewModel( get() ) }
-    factory { HistoryInteractor( get(named(NAME_REMOTE)), get(named(NAME_LOCAL)) )}
+    scope(named<HistoryFragment>()) {
+        viewModel { HistoryViewModel( get() ) }
+        scoped { HistoryInteractor( get(named(NAME_REMOTE)), get(named(NAME_LOCAL)) )}
+    }
 }
 
 val imageScreen = module {
-    factory { ImageViewModel( get() ) }
-    factory { ImageInteractor( get() ) }
+        viewModel { ImageViewModel( get() ) }
+        factory { ImageInteractor( get() ) }
 }
 
 val favoriteScreen = module {
-    factory { FavoriteViewModel( get() )}
-    factory { FavoriteInteractor( get() )}
+    scope(named<FavoriteFragment>()) {
+        viewModel { FavoriteViewModel( get() )}
+        scoped { FavoriteInteractor( get() )}
+    }
 }

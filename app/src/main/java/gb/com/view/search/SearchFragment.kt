@@ -47,6 +47,7 @@ class SearchFragment : BaseFragment<AppState, MainInteractor, WordDefinition>() 
         return binding.root
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
