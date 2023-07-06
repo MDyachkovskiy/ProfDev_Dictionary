@@ -2,11 +2,12 @@ package gb.com.view.base
 
 import android.os.Bundle
 import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import gb.com.R
 import gb.com.databinding.LayoutLoadingBinding
 import gb.com.model.data.wordDefinition.AppState
 import gb.com.presenter.Interactor
-import gb.com.utils.network.isOnline
+import gb.com.utils.network.OnlineLiveData
 import gb.com.view.alertDialog.AlertDialogFragment
 import org.koin.androidx.scope.ScopeFragment
 
@@ -17,27 +18,36 @@ abstract class BaseFragment<T: AppState, I: Interactor<T>,D> : ScopeFragment() {
 
     abstract val model: BaseViewModel<T>
 
-    protected var isNetworkAvailable: Boolean = false
+    protected var isNetworkAvailable: Boolean = true
 
     companion object {
         private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        isNetworkAvailable = isOnline(requireContext())
+    private fun subscribeToNetworkChange() {
+
+        var snackbar: Snackbar? = null
+
+        OnlineLiveData(requireContext()).observe(viewLifecycleOwner
+        ) {
+            isNetworkAvailable = it
+            if (!isNetworkAvailable) {
+                snackbar = Snackbar.make(
+                    requireView(),
+                    R.string.dialog_message_device_is_offline,
+                    Snackbar.LENGTH_INDEFINITE
+                )
+                snackbar?.show()
+            } else {
+                snackbar?.dismiss()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = LayoutLoadingBinding.inflate(layoutInflater)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        isNetworkAvailable = isOnline(requireContext())
-        if (!isNetworkAvailable && isDialogNull())
-            showNoInternetConnectionDialog()
+        subscribeToNetworkChange()
     }
 
     override fun onDestroyView() {
@@ -47,13 +57,6 @@ abstract class BaseFragment<T: AppState, I: Interactor<T>,D> : ScopeFragment() {
 
     private fun isDialogNull(): Boolean{
         return parentFragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null
-    }
-
-    protected fun showNoInternetConnectionDialog() {
-        AlertDialogFragment.newInstance(
-            getString(R.string.dialog_title_device_is_offline),
-            getString(R.string.dialog_message_device_is_offline)
-        ).show(parentFragmentManager, DIALOG_FRAGMENT_TAG)
     }
 
     protected open fun renderData(appState: T) {

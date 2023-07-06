@@ -16,7 +16,6 @@ import gb.com.model.data.wordDefinition.AppState
 import gb.com.model.data.wordDefinition.WordDTO
 import gb.com.model.data.wordDefinition.WordDefinition
 import gb.com.presenter.MainInteractor
-import gb.com.utils.network.isOnline
 import gb.com.utils.viewById
 import gb.com.view.base.BaseFragment
 import kotlinx.coroutines.launch
@@ -63,29 +62,22 @@ class SearchFragment : BaseFragment<AppState, MainInteractor, WordDefinition>() 
 
     private fun setupSearchView() {
 
-        isNetworkAvailable = isOnline(requireContext())
+        searchView.setOnQueryTextListener(
+            object: SearchView.OnQueryTextListener {
 
-
-        if(isNetworkAvailable) {
-            searchView.setOnQueryTextListener(
-                object: SearchView.OnQueryTextListener {
-
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        searchingWord = query
-                        query?.let{
-                            model.getData(it, true)
-                        }
-                        return true
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    searchingWord = query
+                    query?.let{
+                        model.getData(it, true)
                     }
-
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        return true
-                    }
+                    return true
                 }
-            )
-        } else {
-            showNoInternetConnectionDialog()
-        }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return true
+                }
+            }
+        )
     }
 
     override fun setupData(data: List<WordDefinition>) {
