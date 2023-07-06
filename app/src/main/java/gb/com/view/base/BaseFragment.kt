@@ -6,9 +6,10 @@ import com.google.android.material.snackbar.Snackbar
 import gb.com.R
 import gb.com.databinding.LayoutLoadingBinding
 import gb.com.model.data.wordDefinition.AppState
+import gb.com.model.repository.OnlineRepository
 import gb.com.presenter.Interactor
-import gb.com.utils.network.OnlineLiveData
 import gb.com.view.alertDialog.AlertDialogFragment
+import org.koin.android.ext.android.inject
 import org.koin.androidx.scope.ScopeFragment
 
 abstract class BaseFragment<T: AppState, I: Interactor<T>,D> : ScopeFragment() {
@@ -18,7 +19,9 @@ abstract class BaseFragment<T: AppState, I: Interactor<T>,D> : ScopeFragment() {
 
     abstract val model: BaseViewModel<T>
 
-    protected var isNetworkAvailable: Boolean = true
+    private val onlineRepo: OnlineRepository by inject()
+
+    private var isNetworkAvailable: Boolean = true
 
     companion object {
         private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
@@ -28,7 +31,7 @@ abstract class BaseFragment<T: AppState, I: Interactor<T>,D> : ScopeFragment() {
 
         var snackbar: Snackbar? = null
 
-        OnlineLiveData(requireContext()).observe(viewLifecycleOwner
+        onlineRepo.getNetworkStatusLiveData().observe(viewLifecycleOwner
         ) {
             isNetworkAvailable = it
             if (!isNetworkAvailable) {

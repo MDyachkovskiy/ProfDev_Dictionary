@@ -7,6 +7,7 @@ import gb.com.model.datasource.api.RetrofitImplementationForSkyengWord
 import gb.com.model.datasource.api.RetrofitImplementationForWordDefinition
 import gb.com.model.datasource.db.FavoriteDataBaseImplementation
 import gb.com.model.datasource.db.RoomDataBaseImplementation
+import gb.com.model.repository.OnlineRepository
 import gb.com.model.repository.Repository
 import gb.com.model.repository.RepositoryFavorites
 import gb.com.model.repository.RepositoryImplementation
@@ -18,6 +19,7 @@ import gb.com.presenter.FavoriteInteractor
 import gb.com.presenter.HistoryInteractor
 import gb.com.presenter.ImageInteractor
 import gb.com.presenter.MainInteractor
+import gb.com.utils.network.OnlineLiveData
 import gb.com.view.favorite.FavoriteFragment
 import gb.com.view.favorite.FavoriteViewModel
 import gb.com.view.history.HistoryFragment
@@ -25,6 +27,7 @@ import gb.com.view.history.HistoryViewModel
 import gb.com.view.image.ImageViewModel
 import gb.com.view.search.SearchFragment
 import gb.com.view.search.SearchViewModel
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -80,4 +83,9 @@ val favoriteScreen = module {
         viewModel { FavoriteViewModel( get() )}
         scoped { FavoriteInteractor( get() )}
     }
+}
+
+val network = module {
+    single { OnlineLiveData(androidContext()) }
+    single { OnlineRepository( get()) }
 }
