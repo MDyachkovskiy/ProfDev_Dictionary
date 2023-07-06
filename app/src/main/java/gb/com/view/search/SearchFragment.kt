@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import gb.com.databinding.FragmentSearchBinding
 import gb.com.model.data.wordDefinition.AppState
@@ -14,6 +16,7 @@ import gb.com.model.data.wordDefinition.WordDefinition
 import gb.com.presenter.MainInteractor
 import gb.com.utils.network.isOnline
 import gb.com.view.base.BaseFragment
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : BaseFragment<AppState, MainInteractor, WordDefinition>() {
@@ -67,9 +70,6 @@ class SearchFragment : BaseFragment<AppState, MainInteractor, WordDefinition>() 
                         }
 
                         override fun onQueryTextChange(newText: String?): Boolean {
-                            newText?.let {
-                                model.getPreliminaryData(it, true)
-                            }
                             return true
                         }
                     }
@@ -95,8 +95,10 @@ class SearchFragment : BaseFragment<AppState, MainInteractor, WordDefinition>() 
     private fun initViewModel() {
         val viewModel: SearchViewModel by viewModel()
         model = viewModel
-        lifecycleScope.launchWhenStarted{
-            model.stateFlow.collect { renderData(it) }
+        lifecycleScope.launch{
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                model.stateFlow.collect { renderData(it) }
+            }
         }
     }
 }
