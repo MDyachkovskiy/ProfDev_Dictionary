@@ -51,7 +51,7 @@ class HistoryFragment : BaseFragment<AppState, HistoryInteractor, WordDefinition
        val viewModel: HistoryViewModel by viewModel()
         model = viewModel
         model.getData("", false)
-        model.subscribe().observe(this@HistoryFragment) {
+        model.subscribe().observe(viewLifecycleOwner) {
             renderData(it)
         }
     }

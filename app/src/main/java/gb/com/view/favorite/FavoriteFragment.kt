@@ -40,7 +40,7 @@ class FavoriteFragment : BaseFragment<AppState, FavoriteInteractor, WordDTO>() {
         val viewModel: FavoriteViewModel by viewModel()
         model = viewModel
         model.getData("", false)
-        model.subscribe().observe(this@FavoriteFragment){
+        model.subscribe().observe(viewLifecycleOwner){
             renderData(it)
         }
     }
