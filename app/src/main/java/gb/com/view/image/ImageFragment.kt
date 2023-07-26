@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -18,6 +20,7 @@ import gb.com.databinding.FragmentImageBinding
 import gb.com.model.data.wordDefinition.AppState
 import gb.com.model.data.wordImage.SkyengWord
 import gb.com.view.alertDialog.AlertDialogFragment
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ImageFragment : BottomSheetDialogFragment() {
@@ -118,8 +121,10 @@ class ImageFragment : BottomSheetDialogFragment() {
     private fun initViewModel() {
         val viewModel: ImageViewModel by viewModel()
         model = viewModel
-        lifecycleScope.launchWhenStarted{
-            model.stateFlow.collect { renderData(it) }
+        lifecycleScope.launch{
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                model.stateFlow.collect { renderData(it) }
+            }
         }
     }
 

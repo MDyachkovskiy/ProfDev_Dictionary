@@ -70,7 +70,7 @@ dependencies {
 
     //Glide
     implementation(Glide.glide)
-    implementation("com.google.ar:core:1.30.0")
+    implementation("com.google.ar:core:1.38.0")
     kapt(Glide.compiler)
 
 
