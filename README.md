@@ -4,15 +4,9 @@
 
 <h2>Project Screenshots:</h2>
 
-<img src="https://i.ibb.co.com/kX4W1Tm/1695197848016.jpg" alt="project-screenshot" width="200" height="400/">
+<img src="https://i.ibb.co.com/kX4W1Tm/1695197848016.jpg" alt="project-screenshot" width="200" height="400/"> <img src="https://i.ibb.co.com/8DV64Kd/1695197848002.jpg" alt="project-screenshot" width="200" height="400/"> <img src="https://i.ibb.co.com/pdQCrGx/1695197847993.jpg" alt="project-screenshot" width="200" height="400/">
 
-<img src="https://i.ibb.co.com/8DV64Kd/1695197848002.jpg" alt="project-screenshot" width="200" height="400/">
-
-<img src="https://i.ibb.co.com/pdQCrGx/1695197847993.jpg" alt="project-screenshot" width="200" height="400/">
-
-<img src="https://i.ibb.co.com/Ltn3NGg/1695197847965.jpg" alt="project-screenshot" width="200" height="400/">
-
-<img src="https://i.ibb.co.com/N1WV2sV/1695197847981.jpg" alt="project-screenshot" width="200" height="400/">
+<img src="https://i.ibb.co.com/Ltn3NGg/1695197847965.jpg" alt="project-screenshot" width="200" height="400/"> <img src="https://i.ibb.co.com/N1WV2sV/1695197847981.jpg" alt="project-screenshot" width="200" height="400/">
 
 <h2>💻 Built with</h2>
 
