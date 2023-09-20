@@ -1,6 +1,6 @@
 <h1 align="center" id="title">Dictionary</h1>
 
-<p id="description">This project was completed as part of the training course: "Professional development of Android applications". As a part of the educational course an English-Russian dictionary project was implemented which translates the entered word using the API https://api.dictionaryapi.dev and selects a pictorial association for the searched word using the API https://dictionary.skyeng.ru to reinforce memorization results.</p>
+<p id="description">This project was completed as part of the training course: "Professional development of Android applications". During the course, an explanatory dictionary project was developed, which finds the definition of the inputted word using the API at https://api.dictionaryapi.dev. To enhance the retention of the found word, the program automatically selects a pictorial association from the API at https://dictionary.skyeng.ru to bolster memorization efforts.</p>
 
 <h2>Project Screenshots:</h2>
 
